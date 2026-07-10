@@ -253,23 +253,23 @@ Project sử dụng Jakarta Validation và `GlobalExceptionHandler`.
 
 Các HTTP Status chính:
 
-| 400 | Dữ liệu request không hợp lệ |
-| 401 | Chưa đăng nhập hoặc token không hợp lệ |
-| 403 | Không có quyền truy cập |
-| 404 | Không tìm thấy dữ liệu |
-| 409 | Trùng username hoặc mã tài liệu |
-| 500 | Lỗi hệ thống |
+- | 400 | Dữ liệu request không hợp lệ |
+- | 401 | Chưa đăng nhập hoặc token không hợp lệ |
+- | 403 | Không có quyền truy cập |
+- | 404 | Không tìm thấy dữ liệu |
+- | 409 | Trùng username hoặc mã tài liệu |
+- | 500 | Lỗi hệ thống |
 
 ---
 
 ## 12. Test bằng Postman
 
-giải nén file  "EVD-SYS-API-test-kit"
-Chạy PostgreSQL và source.
-Import EVD-SYS-API.postman_collection.json.
-Import EVD-SYS-Local.postman_environment.json.
-Chọn environment EVD SYS - Local.
-Chạy các folder lần lượt từ 00 đến 07.
+- giải nén file  "EVD-SYS-API-test-kit".
+- Chạy PostgreSQL và source.
+- Import EVD-SYS-API.postman_collection.json.
+- Import EVD-SYS-Local.postman_environment.json.
+- Chọn environment EVD SYS - Local.
+- Chạy các folder lần lượt từ 00 đến 07.
 
 
 
