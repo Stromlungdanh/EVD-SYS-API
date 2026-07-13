@@ -1,110 +1,111 @@
 # EVD SYS API
 
-Đây là bài Technical Test Backend Java Spring Boot cho module quản lý tài liệu EVD và quản lý người dùng SYS.
+This is a Java Spring Boot Backend Technical Test for the EVD document management module and SYS user management.
 
 ## Tech stack
 
-- Java 21, Spring Boot 3
-- PostgreSQL 17 with Docker Compose
-- Spring Data JPA: user/document CRUD, document pagination/filter/search/sort
-- Spring Security, BCrypt password hashing, JWT Bearer authentication
-- Flyway database migrations
+* Java 21, Spring Boot 3
+* PostgreSQL 17 with Docker Compose
+* Spring Data JPA: user/document CRUD, document pagination/filter/search/sort
+* Spring Security, BCrypt password hashing, JWT Bearer authentication
+* Flyway database migrations
 
-## Chạy source
+## Run the source code
 
-yêu cầu: Docker Desktop and Java 21.
+Requirements: Docker Desktop and Java 21.
 
 Start PostgreSQL:
+
 ```cmd
 docker compose up -d
 docker compose ps
 ```
 
-Mở terminal tại thư mục project:
+Open a terminal in the project directory:
 
 ```cmd
 docker run --rm --name evd-sys-api -p 8081:8080 --network evd-sys-api_default -e DB_URL=jdbc:postgresql://postgres:5432/evd_sys -e DB_USERNAME=evd_user -e DB_PASSWORD=evd_password -v "%cd%:/workspace" -w /workspace maven:3.9.11-eclipse-temurin-21 mvn -q spring-boot:run
 ```
 
-## accounts
-admin/password -> role: ADMIN.
-staff/password -> role: STAFF
+## Accounts
+
+* admin/password -> role: ADMIN
+* staff/password -> role: STAFF
 
 ## Authentication
 
 `POST /api/auth/login`
 
+## 1. Introduction
 
-## 1. Giới thiệu
+This is a Java Spring Boot Backend Technical Test for the EVD document management module and SYS user management.
 
-Đây là bài Technical Test Backend Java Spring Boot cho module quản lý tài liệu EVD và quản lý người dùng SYS.
+Main features:
 
-Các chức năng chính:
-
-- Đăng nhập bằng JWT Access Token.
-- Phân quyền ADMIN và STAFF.
-- Quản lý tài liệu.
-- Quản lý người dùng.
-- Phân trang, tìm kiếm, lọc và sắp xếp tài liệu.
-- Thống kê số lượng tài liệu theo trạng thái.
-- Validation và xử lý lỗi tập trung.
----
-
-## 2. Công nghệ sử dụng
-
-- Java 21.
-- Spring Boot.
-- Spring Security.
-- JWT Access Token.
-- Spring JDBC.
-- PostgreSQL.
-- Flyway Migration.
-- Docker Compose.
-- Maven.
-
+* Login using a JWT Access Token.
+* ADMIN and STAFF authorization.
+* Document management.
+* User management.
+* Document pagination, searching, filtering, and sorting.
+* Statistics of the number of documents by status.
+* Validation and centralized exception handling.
 
 ---
 
-## 3. Phân quyền
+## 2. Technologies used
+
+* Java 21.
+* Spring Boot.
+* Spring Security.
+* JWT Access Token.
+* Spring JDBC.
+* PostgreSQL.
+* Flyway Migration.
+* Docker Compose.
+* Maven.
+
+---
+
+## 3. Authorization
 
 ### ADMIN
 
-ADMIN có quyền:
+ADMIN has permission to:
 
-- Xem toàn bộ tài liệu.
-- Tạo, cập nhật và xóa tài liệu.
-- Quản lý người dùng.
-- Xem thống kê tài liệu.
+* View all documents.
+* Create, update, and delete documents.
+* Manage users.
+* View document statistics.
 
 ### STAFF
 
-STAFF có quyền:
+STAFF has permission to:
 
-- Tạo tài liệu.
-- Xem tài liệu do mình tạo.
-- Cập nhật tài liệu do mình tạo.
+* Create documents.
+* View documents created by themselves.
+* Update documents created by themselves.
 
-STAFF không được:
+STAFF is not allowed to:
 
-- Xem hoặc sửa tài liệu của người khác.
-- Xóa tài liệu.
-- Truy cập chức năng quản lý người dùng.
+* View or update documents created by other users.
+* Delete documents.
+* Access user management functions.
 
 ---
 
-## 4. Cấu trúc project
+## 4. Project structure
 
 ```text
 src/main/java/com/lotte/evdsys
-├── auth        # Đăng nhập và JWT
-├── security    # Spring Security và JWT Filter
-├── document    # Quản lý tài liệu
-├── user        # Quản lý người dùng
-├── common      # Exception và response dùng chung
+├── auth        # Login and JWT
+├── security    # Spring Security and JWT Filter
+├── document    # Document management
+├── user        # User management
+├── common      # Shared exceptions and responses
 └── EvdSysApiApplication.java
 ```
 
-Kiến trúc xử lý:
+Processing architecture:
 
 ```text
 Controller
@@ -115,19 +116,19 @@ Controller
 
 ---
 
-## 5. Database và Flyway
+## 5. Database and Flyway
 
-Database sử dụng PostgreSQL.
+The database uses PostgreSQL.
 
-Các bảng và dữ liệu mẫu được tự động tạo bằng Flyway khi ứng dụng khởi động.
+Tables and sample data are automatically created by Flyway when the application starts.
 
-Migration nằm tại:
+Migrations are located at:
 
 ```text
 src/main/resources/db/migration
 ```
 
-## 6. Đăng nhập
+## 6. Login
 
 ### ADMIN
 
@@ -145,7 +146,7 @@ Request:
 }
 ```
 
-Response trả về JWT Access Token:
+The response returns a JWT Access Token:
 
 ```json
 {
@@ -153,82 +154,82 @@ Response trả về JWT Access Token:
 }
 ```
 
-Sử dụng token trong các API được bảo vệ:
+Use the token in protected APIs:
 
 ```http
 Authorization: Bearer <access-token>
 ```
 
-Project hiện chỉ sử dụng JWT Access Token, chưa triển khai Refresh Token.
+The project currently only uses a JWT Access Token and has not implemented a Refresh Token.
 
 ---
 
-## 7. API document
+## 7. Document API
 
-### Tạo tài liệu
+### Create a document
 
 ```http
 POST /api/documents
 ```
 
-Request mẫu:
+Sample request:
 
 ```json
 {
   "code": "DOC-001",
-  "title": "Hướng dẫn sử dụng",
-  "description": "Tài liệu hướng dẫn hệ thống",
+  "title": "User Guide",
+  "description": "System user guide document",
   "category": "GUIDE",
   "status": "DRAFT"
 }
 ```
 
-### Danh sách tài liệu
+### Document list
 
 ```http
 GET /api/documents
 ```
 
-Hỗ trợ:
+Supports:
 
-- Phân trang.
-- Lọc theo status và category.
-- Tìm kiếm theo code hoặc title.
-- Sắp xếp dữ liệu.
+* Pagination.
+* Filtering by status and category.
+* Searching by code or title.
+* Data sorting.
 
-Ví dụ:
+Example:
 
 ```http
 GET /api/documents?page=0&size=10&status=DRAFT&keyword=DOC
 ```
 
-### Chi tiết tài liệu
+### Document details
 
 ```http
 GET /api/documents/{id}
 ```
 
-### Cập nhật tài liệu
+### Update a document
 
 ```http
 PUT /api/documents/{id}
 ```
 
-### Xóa tài liệu
+### Delete a document
 
 ```http
 DELETE /api/documents/{id}
 ```
 
-Chỉ ADMIN được phép xóa tài liệu.
+Only ADMIN is allowed to delete documents.
 
 ---
 
-## 10. Thống kê
+## 10. Statistics
 
-Hệ thống có truy vấn thống kê số lượng tài liệu theo trạng thái bằng SQL `GROUP BY`.
+The system has a query to count documents by status using SQL `GROUP BY`.
 
-Ví dụ kết quả:
+Example result:
 
 ```json
 [
@@ -245,30 +246,26 @@ Ví dụ kết quả:
 
 ---
 
-## 11. Validation và xử lý lỗi
+## 11. Validation and exception handling
 
-Project sử dụng Jakarta Validation và `GlobalExceptionHandler`.
+The project uses Jakarta Validation and `GlobalExceptionHandler`.
 
-Các HTTP Status chính:
+Main HTTP Status codes:
 
-- | 400 | Dữ liệu request không hợp lệ |
-- | 401 | Chưa đăng nhập hoặc token không hợp lệ |
-- | 403 | Không có quyền truy cập |
-- | 404 | Không tìm thấy dữ liệu |
-- | 409 | Trùng username hoặc mã tài liệu |
-- | 500 | Lỗi hệ thống |
+* | 400 | Invalid request data |
+* | 401 | Not authenticated or invalid token |
+* | 403 | No access permission |
+* | 404 | Data not found |
+* | 409 | Duplicate username or document code |
+* | 500 | System error |
 
 ---
 
-## 12. Test bằng Postman
+## 12. Testing with Postman
 
-- giải nén file  "EVD-SYS-API-test-kit".
-- Chạy PostgreSQL và source.
-- Import EVD-SYS-API.postman_collection.json.
-- Import EVD-SYS-Local.postman_environment.json.
-- Chọn environment EVD SYS - Local.
-- Chạy các folder lần lượt từ 00 đến 07.
-
-
-
-
+* Extract the `EVD-SYS-API-test-kit` file.
+* Run PostgreSQL and the source code.
+* Import `EVD-SYS-API.postman_collection.json`.
+* Import `EVD-SYS-Local.postman_environment.json`.
+* Select the `EVD SYS - Local` environment.
+* Run the folders in order from 00 to 07.
