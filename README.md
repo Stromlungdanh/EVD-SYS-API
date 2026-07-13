@@ -27,7 +27,7 @@ docker run --rm --name evd-sys-api -p 8081:8080 --network evd-sys-api_default -e
 ```
 
 ## accounts
-admin/password -> role: ADMIN
+admin/password -> role: ADMIN.
 staff/password -> role: STAFF
 
 ## Authentication
@@ -61,9 +61,7 @@ Các chức năng chính:
 - Flyway Migration.
 - Docker Compose.
 - Maven.
-- JUnit 5 và Mockito.
 
-Project sử dụng Spring JDBC, không sử dụng JPA/Hibernate.
 
 ---
 
